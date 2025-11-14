@@ -4,159 +4,162 @@
 <meta charset="UTF-8">
 <title>Lanche de Natal</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-body {
-    font-family: 'Inter', Arial, sans-serif;
-    background: url('nss.jpg') no-repeat center center fixed;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    color: #333;
-}
+    body {
+        font-family: 'Inter', Arial, sans-serif;
+        background: url('SUA_IMAGEM_DE_FUNDO.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+    }
 
-/* Tela inicial */
-#telaInicial {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
-}
+    /* Tela inicial */
+    #telaInicial {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+    }
 
-#btnIniciar {
-    background-color: #16a34a; /* verde vivo */
-    color: white;
-    border: none;
-    padding: 20px 40px;
-    font-size: 20px;
-    font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+    #btnIniciar {
+        background-color: #16a34a; /* verde vivo */
+        color: white;
+        border: none;
+        padding: 20px 40px;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
 
-#btnIniciar:hover {
-    background-color: #13803d;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-}
+    #btnIniciar:hover {
+        background-color: #13803d;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
 
-/* Conteúdo principal */
-#conteudoPrincipal {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 450px;
-    background: rgba(255, 255, 255, 0.95); /* caixa branca semi-transparente */
-    padding: 40px 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    text-align: center;
-}
+    /* Conteúdo principal */
+    #conteudoPrincipal {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 400px;
+        margin-top: 30px;
+    }
 
-h2 {
-    color: #16a34a;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
+    .conteudoBox {
+        background: rgba(255,255,255,0.95);
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        width: 100%;
+        transition: all 0.3s ease;
+    }
 
-p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 20px;
-}
+    .conteudoBox:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
 
-.box {
-    background: transparent; /* já temos fundo principal */
-    margin-top: 20px;
-    padding: 20px 0;
-    width: 100%;
-}
+    h2 {
+        color: #16a34a;
+        text-align: center;
+        font-weight: 600;
+    }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #2d3748;
-    cursor: pointer;
-}
+    p {
+        text-align: center;
+        font-size: 16px;
+        color: #555;
+    }
 
-input[type="text"],
-input[type="email"],
-select {
-    width: 100%;
-    padding: 10px 12px;
-    margin-bottom: 15px;
-    border: 1px solid #cbd5e0;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #2d3748;
+        cursor: pointer;
+    }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-select:focus {
-    outline: none;
-    border-color: #16a34a;
-    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
-}
+    input[type="text"],
+    input[type="email"],
+    select {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 15px;
+        border: 1px solid #cbd5e0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
 
-button.formButton {
-    width: 100%;
-    background-color: #16a34a;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+        outline: none;
+        border-color: #16a34a;
+        box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+    }
 
-button.formButton:hover {
-    background-color: #13803d;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
+    button.formButton {
+        width: 100%;
+        background-color: #16a34a;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
 
-input[type="radio"] {
-    margin-right: 10px;
-    accent-color: #16a34a;
-    cursor: pointer;
-}
+    button.formButton:hover {
+        background-color: #13803d;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
 
-#msgInscricao,
-#msgNegar {
-    font-weight: 600;
-    margin-top: 10px;
-    color: #16a34a;
-    text-align: center;
-}
+    input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #16a34a;
+        cursor: pointer;
+    }
 
-label:hover {
-    color: #16a34a;
-}
+    #msgInscricao,
+    #msgNegar {
+        font-weight: 600;
+        margin-top: 10px;
+        color: #16a34a;
+        text-align: center;
+    }
 
-.hidden { display: none; }
+    label:hover {
+        color: #16a34a;
+    }
+
+    .hidden { display: none; }
 
 </style>
 </head>
 <body>
 
-<!-- TELA INICIAL -->
+<!-- Tela inicial -->
 <div id="telaInicial">
     <button id="btnIniciar">Natal 2025 - Newspring Services</button>
 </div>
 
-<!-- CONTEÚDO PRINCIPAL -->
+<!-- Conteúdo principal -->
 <div id="conteudoPrincipal">
 
 <h2>🎄 Lanche de Natal</h2>
@@ -170,8 +173,8 @@ label:hover {
     <input type="radio" name="opcao" value="negar" onclick="mostrarOpcao()"> Negar convite
 </label>
 
-<div id="formInscricao" class="box hidden">
-    <h3> Efetuar Inscrição</h3>
+<div id="formInscricao" class="conteudoBox hidden">
+    <h3>Efetuar Inscrição</h3>
     <label>Equipa</label>
     <select id="coordenacao">
         <option value="">Seleciona o teu Projeto</option>
@@ -191,7 +194,7 @@ label:hover {
     <p id="msgInscricao"></p>
 </div>
 
-<div id="formNegar" class="box hidden">
+<div id="formNegar" class="conteudoBox hidden">
     <h3>Recusar Convite</h3>
     <label>Nome Completo</label>
     <input type="text" id="nomeNegar">
@@ -209,13 +212,30 @@ label:hover {
 const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
-// BOTÃO INICIAL
+// Múltiplos e-mails por site
+const sites = {
+    "Columbano": ["telma.pereirs.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
+    "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
+        "Alexandre Herculano": ["t@t.com"],
+        "Évora": ["teste@.com"],
+    "Alfragide": ["ruben.rhodo@newspring.pt"]
+};
+
+function getSiteDoEmail(email) {
+    email = email.toLowerCase();
+    for (const [site, emails] of Object.entries(sites)) {
+        if (emails.includes(email)) return site;
+    }
+    return "Site desconhecido";
+}
+
+// Botão inicial
 document.getElementById("btnIniciar").addEventListener("click", () => {
     document.getElementById("telaInicial").style.display = "none";
     document.getElementById("conteudoPrincipal").style.display = "flex";
 });
 
-// FORMULÁRIOS
+// Mostrar formulário
 function mostrarOpcao() {
     const opcao = document.querySelector('input[name="opcao"]:checked').value;
     document.getElementById("formInscricao").classList.add("hidden");
@@ -224,13 +244,20 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
-// FUNÇÕES DE ENVIO E IMAGEM
+// Gerar inscrição
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
     const coord = document.getElementById("coordenacao").value;
-    if (!nome || !email || !coord) { alert("Preencha todos os campos."); return; }
-    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}`;
+
+    if (!nome || !email || !coord) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    const site = getSiteDoEmail(email);
+
+    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}\nSite: ${site}`;
     document.getElementById("msgInscricao").innerText = mensagem;
 
     try {
@@ -242,21 +269,28 @@ async function gerarInscricao() {
                 'Authorization': `Bearer ${SUPABASE_API_KEY}`,
                 'Prefer': 'return=representation'
             },
-            body: JSON.stringify([{ nome, email, coordenacao: coord, site: null, codigo_negativa: null }])
+            body: JSON.stringify([{ nome, email, coordenacao: coord, site, codigo_negativa: null }])
         });
         if (!response.ok) throw new Error(`Erro ${response.status}`);
-        console.log("✅ Inscrição efetuada!");
+        console.log("✅ Inscrição salva com sucesso!");
     } catch (err) {
-        console.error(err);
-        alert("Erro ao salvar no banco.");
+        console.error("❌ Erro ao salvar inscrição:", err);
+        alert("Erro ao salvar no banco. Verifique a tabela e permissões.");
     }
+
     gerarImagem(mensagem, "Confirmacao_Inscricao.png");
 }
 
+// Gerar negativa
 async function gerarNegativa() {
     const nome = document.getElementById("nomeNegar").value.trim();
     const email = document.getElementById("emailNegar").value.trim();
-    if (!nome || !email) { alert("Preencha todos os campos."); return; }
+
+    if (!nome || !email) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
     const codigo = "NSS_RECUSA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
     const mensagem = `Recusa de convite registada!\nNome: ${nome}\nE-mail: ${email}\nCódigo: ${codigo}`;
     document.getElementById("msgNegar").innerText = mensagem;
@@ -273,14 +307,16 @@ async function gerarNegativa() {
             body: JSON.stringify([{ nome, email, coordenacao: null, site: null, codigo_negativa: codigo }])
         });
         if (!response.ok) throw new Error(`Erro ${response.status}`);
-        console.log("✅ Recusa registada!");
+        console.log("✅ Recusa registada com sucesso!");
     } catch (err) {
-        console.error(err);
-        alert("Erro ao salvar no banco.");
+        console.error("❌ Erro ao salvar negativa:", err);
+        alert("Erro ao salvar no banco. Verifique a tabela e permissões.");
     }
+
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
+// Gerar imagem
 function gerarImagem(texto, nomeArquivo) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
@@ -296,7 +332,7 @@ function gerarImagem(texto, nomeArquivo) {
 
     const linhas = texto.split("\n");
     linhas.forEach((linha, i) => {
-        ctx.fillText(linha, canvas.width / 2, 100 + i * 40);
+        ctx.fillText(linha, canvas.width / 2, 100 + i*40);
     });
 
     const link = document.createElement("a");
