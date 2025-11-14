@@ -12,7 +12,7 @@
         margin: 0;
         padding: 0;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
         min-height: 100vh;
         color: #333;
@@ -29,7 +29,7 @@
     }
 
     #btnIniciar {
-        background-color: #16a34a; /* verde vivo */
+        background-color: #16a34a;
         color: white;
         border: none;
         padding: 20px 40px;
@@ -51,36 +51,32 @@
         display: none;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         width: 100%;
-        max-width: 400px;
+        max-width: 450px;
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
 
     h2 {
-        margin-top: 40px;
-        color: #16a34a; /* verde vivo */
+        color: #16a34a;
         text-align: center;
         font-weight: 600;
+        margin-bottom: 10px;
     }
 
     p {
         text-align: center;
         font-size: 16px;
         color: #555;
+        margin-bottom: 20px;
     }
 
     .box {
-        background: #fff;
-        margin-top: 20px;
-        padding: 25px 30px;
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         width: 100%;
-        transition: all 0.3s ease;
-    }
-
-    .box:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        margin-top: 20px;
     }
 
     label {
@@ -122,6 +118,7 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
+        margin-top: 5px;
     }
 
     button.formButton:hover {
@@ -142,10 +139,6 @@
         margin-top: 10px;
         color: #16a34a;
         text-align: center;
-    }
-
-    label:hover {
-        color: #16a34a;
     }
 
     .hidden { display: none; }
@@ -202,7 +195,7 @@
     <input type="email" id="emailNegar">
 
     <button class="formButton" onclick="gerarNegativa()">Gerar imagem</button>
-    <p id="msgNegar" style="font-weight:bold;"></p>
+    <p id="msgNegar"></p>
 </div>
 
 </div>
@@ -226,7 +219,100 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
-// ... (o resto do JS permanece igual, incluindo gerarInscricao(), gerarNegativa(), gerarImagem())
+// GERAR INSCRIÇÃO
+async function gerarInscricao() {
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const coord = document.getElementById("coordenacao").value;
+
+    if (!nome || !email || !coord) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    const site = "Site desconhecido";
+    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}\nSite: ${site}`;
+    document.getElementById("msgInscricao").innerText = mensagem;
+
+    // Enviar para Supabase
+    try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_API_KEY,
+                'Authorization': `Bearer ${SUPABASE_API_KEY}`,
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify([{ nome, email, coordenacao: coord, site, codigo_negativa: null }])
+        });
+        if (!response.ok) throw new Error(await response.text());
+    } catch (err) {
+        console.error("Erro ao salvar inscrição:", err);
+        alert("Erro ao salvar no banco. Verifique permissões.");
+    }
+
+    gerarImagem(mensagem, "Confirmacao_Inscricao.png");
+}
+
+// GERAR NEGATIVA
+async function gerarNegativa() {
+    const nome = document.getElementById("nomeNegar").value.trim();
+    const email = document.getElementById("emailNegar").value.trim();
+
+    if (!nome || !email) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    const codigo = "NSS_RECUSA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const mensagem = `Recusa de convite registada!\nNome: ${nome}\nE-mail: ${email}\nCódigo: ${codigo}`;
+    document.getElementById("msgNegar").innerText = mensagem;
+
+    try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_API_KEY,
+                'Authorization': `Bearer ${SUPABASE_API_KEY}`,
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify([{ nome, email, coordenacao: null, site: null, codigo_negativa: codigo }])
+        });
+        if (!response.ok) throw new Error(await response.text());
+    } catch (err) {
+        console.error("Erro ao salvar negativa:", err);
+        alert("Erro ao salvar no banco. Verifique permissões.");
+    }
+
+    gerarImagem(mensagem, "Recusa_Convite.png");
+}
+
+// GERAR IMAGEM
+function gerarImagem(texto, nomeArquivo) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 800;
+    canvas.height = 400;
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#000000";
+    ctx.font = "24px Arial";
+    ctx.textAlign = "center";
+
+    const linhas = texto.split("\n");
+    linhas.forEach((linha, i) => {
+        ctx.fillText(linha, canvas.width / 2, 100 + i * 40);
+    });
+
+    const link = document.createElement("a");
+    link.download = nomeArquivo;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+}
 </script>
 
 </body>
