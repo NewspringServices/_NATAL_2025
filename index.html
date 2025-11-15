@@ -16,7 +16,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center; /* centraliza tudo verticalmente */
+        justify-content: center; 
         min-height: 100vh;
         color: #333;
     }
@@ -53,7 +53,7 @@
         display: none;
         flex-direction: column;
         align-items: center;
-        justify-content: center; /* centraliza verticalmente */
+        justify-content: center; 
         width: 100%;
     }
 
@@ -63,7 +63,7 @@
         padding: 20px 25px;
         border-radius: 12px;
         box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        width: 350px; /* largura fixa */
+        width: 350px; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -211,7 +211,7 @@ const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
 const sites = {
-    "Columbano": ["telma.pereira.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
+    "Columbano": ["telma.pereirs.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
     "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
     "Alexandre Herculano": ["t@t.com"],
     "Évora": ["teste@.com"],
@@ -302,31 +302,43 @@ async function gerarNegativa() {
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
+// Função gerarImagem com logo da empresa
 function gerarImagem(texto, nomeArquivo) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
     canvas.height = 400;
     const ctx = canvas.getContext("2d");
 
+    // Fundo branco
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#000000";
-    ctx.font = "24px Arial";
-    ctx.textAlign = "center";
+    // Logo da empresa
+    const logo = new Image();
+    logo.src = "https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png";
+    logo.onload = () => {
+        const logoWidth = 150;
+        const logoHeight = 75;
+        ctx.drawImage(logo, canvas.width - logoWidth - 20, 20, logoWidth, logoHeight);
 
-    const linhas = texto.split("\n");
-    linhas.forEach((linha, i) => {
-        ctx.fillText(linha, canvas.width / 2, 100 + i * 40);
-    });
+        // Texto centralizado
+        ctx.fillStyle = "#000000";
+        ctx.font = "24px Arial";
+        ctx.textAlign = "center";
 
-    const link = document.createElement("a");
-    link.download = nomeArquivo;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+        const linhas = texto.split("\n");
+        linhas.forEach((linha, i) => {
+            ctx.fillText(linha, canvas.width / 2, 150 + i * 40);
+        });
+
+        // Baixa a imagem
+        const link = document.createElement("a");
+        link.download = nomeArquivo;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    };
 }
 </script>
 
 </body>
 </html>
-
