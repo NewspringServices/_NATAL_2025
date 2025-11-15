@@ -64,6 +64,7 @@
         box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         width: 100%;
         transition: all 0.3s ease;
+        margin-bottom: 20px;
     }
 
     .conteudoBox:hover {
@@ -103,12 +104,10 @@
         transition: all 0.2s ease;
     }
 
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    select:focus {
-        outline: none;
-        border-color: #16a34a;
-        box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+    input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #16a34a;
+        cursor: pointer;
     }
 
     button.formButton {
@@ -130,22 +129,12 @@
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
 
-    input[type="radio"] {
-        margin-right: 10px;
-        accent-color: #16a34a;
-        cursor: pointer;
-    }
-
     #msgInscricao,
     #msgNegar {
         font-weight: 600;
         margin-top: 10px;
         color: #16a34a;
         text-align: center;
-    }
-
-    label:hover {
-        color: #16a34a;
     }
 
     .hidden { display: none; }
@@ -162,49 +151,56 @@
 <!-- Conteúdo principal -->
 <div id="conteudoPrincipal">
 
-<h2>🎄 Lanche de Natal</h2>
-<p>Escolha uma opção:</p>
+    <!-- 🔥 Agora a escolha aparece dentro do quadrado branco -->
+    <div class="conteudoBox">
+        <h2>🎄 Lanche de Natal</h2>
+        <p>Escolha uma opção:</p>
 
-<label>
-    <input type="radio" name="opcao" value="inscricao" onclick="mostrarOpcao()"> Efetuar inscrição
-</label>
+        <label>
+            <input type="radio" name="opcao" value="inscricao" onclick="mostrarOpcao()"> Efetuar inscrição
+        </label>
 
-<label>
-    <input type="radio" name="opcao" value="negar" onclick="mostrarOpcao()"> Negar convite
-</label>
+        <label>
+            <input type="radio" name="opcao" value="negar" onclick="mostrarOpcao()"> Negar convite
+        </label>
+    </div>
 
-<div id="formInscricao" class="conteudoBox hidden">
-    <h3>Efetuar Inscrição</h3>
-    <label>Equipa</label>
-    <select id="coordenacao">
-        <option value="">Seleciona o teu Projeto</option>
-        <option value="FID BPO">FID BPO</option>
-        <option value="Contact Center - Worten">Contact Center - Worten</option>
-        <option value="Contact Center - Fidelidade">Contact Center - Fidelidade</option>
-        <option value="Equipa de Recursos Humanos">Equipa de Recursos Humanos</option>
-    </select>
+    <!-- Formulário de inscrição -->
+    <div id="formInscricao" class="conteudoBox hidden">
+        <h3>Efetuar Inscrição</h3>
 
-    <label>Nome completo</label>
-    <input type="text" id="nome">
+        <label>Equipa</label>
+        <select id="coordenacao">
+            <option value="">Seleciona o teu Projeto</option>
+            <option value="FID BPO">FID BPO</option>
+            <option value="Contact Center - Worten">Contact Center - Worten</option>
+            <option value="Contact Center - Fidelidade">Contact Center - Fidelidade</option>
+            <option value="Equipa de Recursos Humanos">Equipa de Recursos Humanos</option>
+        </select>
 
-    <label>E-mail Profissional</label>
-    <input type="email" id="email">
+        <label>Nome completo</label>
+        <input type="text" id="nome">
 
-    <button class="formButton" onclick="gerarInscricao()">Submeter</button>
-    <p id="msgInscricao"></p>
-</div>
+        <label>E-mail Profissional</label>
+        <input type="email" id="email">
 
-<div id="formNegar" class="conteudoBox hidden">
-    <h3>Recusar Convite</h3>
-    <label>Nome Completo</label>
-    <input type="text" id="nomeNegar">
+        <button class="formButton" onclick="gerarInscricao()">Submeter</button>
+        <p id="msgInscricao"></p>
+    </div>
 
-    <label>E-mail Profissional</label>
-    <input type="email" id="emailNegar">
+    <!-- Formulário de recusa -->
+    <div id="formNegar" class="conteudoBox hidden">
+        <h3>Recusar Convite</h3>
 
-    <button class="formButton" onclick="gerarNegativa()">Submeter</button>
-    <p id="msgNegar"></p>
-</div>
+        <label>Nome Completo</label>
+        <input type="text" id="nomeNegar">
+
+        <label>E-mail Profissional</label>
+        <input type="email" id="emailNegar">
+
+        <button class="formButton" onclick="gerarNegativa()">Submeter</button>
+        <p id="msgNegar"></p>
+    </div>
 
 </div>
 
@@ -212,12 +208,11 @@
 const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
-// Múltiplos e-mails por site
 const sites = {
     "Columbano": ["telma.pereirs.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
     "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
-        "Alexandre Herculano": ["t@t.com"],
-        "Évora": ["teste@.com"],
+    "Alexandre Herculano": ["t@t.com"],
+    "Évora": ["teste@.com"],
     "Alfragide": ["ruben.rhodo@newspring.pt"]
 };
 
@@ -229,13 +224,11 @@ function getSiteDoEmail(email) {
     return "Site desconhecido";
 }
 
-// Botão inicial
 document.getElementById("btnIniciar").addEventListener("click", () => {
     document.getElementById("telaInicial").style.display = "none";
     document.getElementById("conteudoPrincipal").style.display = "flex";
 });
 
-// Mostrar formulário
 function mostrarOpcao() {
     const opcao = document.querySelector('input[name="opcao"]:checked').value;
     document.getElementById("formInscricao").classList.add("hidden");
@@ -244,7 +237,6 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
-// Gerar inscrição
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -256,7 +248,6 @@ async function gerarInscricao() {
     }
 
     const site = getSiteDoEmail(email);
-
     const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}\nSite: ${site}`;
     document.getElementById("msgInscricao").innerText = mensagem;
 
@@ -271,17 +262,13 @@ async function gerarInscricao() {
             },
             body: JSON.stringify([{ nome, email, coordenacao: coord, site, codigo_negativa: null }])
         });
-        if (!response.ok) throw new Error(`Erro ${response.status}`);
-        console.log("✅ Inscrição salva com sucesso!");
     } catch (err) {
-        console.error("❌ Erro ao salvar inscrição:", err);
-        alert("Erro ao salvar no banco. Verifique a tabela e permissões.");
+        alert("Erro ao salvar no banco.");
     }
 
     gerarImagem(mensagem, "Confirmacao_Inscricao.png");
 }
 
-// Gerar negativa
 async function gerarNegativa() {
     const nome = document.getElementById("nomeNegar").value.trim();
     const email = document.getElementById("emailNegar").value.trim();
@@ -306,17 +293,13 @@ async function gerarNegativa() {
             },
             body: JSON.stringify([{ nome, email, coordenacao: null, site: null, codigo_negativa: codigo }])
         });
-        if (!response.ok) throw new Error(`Erro ${response.status}`);
-        console.log("✅ Recusa registada com sucesso!");
     } catch (err) {
-        console.error("❌ Erro ao salvar negativa:", err);
-        alert("Erro ao salvar no banco. Verifique a tabela e permissões.");
+        alert("Erro ao salvar.");
     }
 
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
-// Gerar imagem
 function gerarImagem(texto, nomeArquivo) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
@@ -332,7 +315,7 @@ function gerarImagem(texto, nomeArquivo) {
 
     const linhas = texto.split("\n");
     linhas.forEach((linha, i) => {
-        ctx.fillText(linha, canvas.width / 2, 100 + i*40);
+        ctx.fillText(linha, canvas.width / 2, 100 + i * 40);
     });
 
     const link = document.createElement("a");
@@ -344,4 +327,5 @@ function gerarImagem(texto, nomeArquivo) {
 
 </body>
 </html>
+
 
