@@ -21,7 +21,6 @@
         color: #333;
     }
 
-    /* Tela inicial */
     #telaInicial {
         display: flex;
         justify-content: center;
@@ -48,7 +47,6 @@
         box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     }
 
-    /* Conteúdo principal */
     #conteudoPrincipal {
         display: none;
         flex-direction: column;
@@ -57,7 +55,6 @@
         width: 100%;
     }
 
-    /* Caixas brancas */
     .conteudoBox {
         background: rgba(255,255,255,0.95);
         padding: 20px 25px;
@@ -70,7 +67,6 @@
         margin-bottom: 20px;
     }
 
-    /* Caixa de escolha menor */
     #caixaEscolha {
         padding: 20px 25px;
     }
@@ -145,15 +141,12 @@
 </head>
 <body>
 
-<!-- Tela inicial -->
 <div id="telaInicial">
     <button id="btnIniciar">Natal 2025 - Newspring Services</button>
 </div>
 
-<!-- Conteúdo principal -->
 <div id="conteudoPrincipal">
 
-    <!-- Caixa de escolha menor -->
     <div id="caixaEscolha" class="conteudoBox">
         <h2>🎄 Lanche de Natal</h2>
         <p>Escolha uma opção:</p>
@@ -167,7 +160,6 @@
         </label>
     </div>
 
-    <!-- Formulário de inscrição -->
     <div id="formInscricao" class="conteudoBox hidden">
         <h3>Efetuar Inscrição</h3>
 
@@ -190,7 +182,6 @@
         <p id="msgInscricao"></p>
     </div>
 
-    <!-- Formulário de recusa -->
     <div id="formNegar" class="conteudoBox hidden">
         <h3>Recusar Convite</h3>
 
@@ -302,8 +293,19 @@ async function gerarNegativa() {
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
-// Função gerarImagem com logo da empresa
-function gerarImagem(texto, nomeArquivo) {
+// Função para carregar imagem com CORS
+function carregarImagem(src) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+    });
+}
+
+// Função gerarImagem com logo centralizado e tamanho proporcional
+async function gerarImagem(texto, nomeArquivo) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
     canvas.height = 400;
@@ -313,22 +315,25 @@ function gerarImagem(texto, nomeArquivo) {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Logo da empresa
-    const logo = new Image();
-    logo.src = "https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png";
-    logo.onload = () => {
-        const logoWidth = 150;
-        const logoHeight = 75;
-        ctx.drawImage(logo, canvas.width - logoWidth - 20, 20, logoWidth, logoHeight);
+    try {
+        const logo = await carregarImagem("https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png");
 
-        // Texto centralizado
+        // Logo centralizado no topo (menor)
+        const logoWidth = 200;
+        const logoHeight = 100;
+        const logoX = (canvas.width - logoWidth) / 2;
+        const logoY = 20;
+        ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+
+        // Texto centralizado abaixo do logo
         ctx.fillStyle = "#000000";
         ctx.font = "24px Arial";
         ctx.textAlign = "center";
 
         const linhas = texto.split("\n");
         linhas.forEach((linha, i) => {
-            ctx.fillText(linha, canvas.width / 2, 150 + i * 40);
+            const posY = logoY + logoHeight + 30 + i * 35;
+            ctx.fillText(linha, canvas.width / 2, posY);
         });
 
         // Baixa a imagem
@@ -336,7 +341,10 @@ function gerarImagem(texto, nomeArquivo) {
         link.download = nomeArquivo;
         link.href = canvas.toDataURL("image/png");
         link.click();
-    };
+
+    } catch (err) {
+        alert("Erro ao carregar o logo da empresa.");
+    }
 }
 </script>
 
