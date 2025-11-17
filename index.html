@@ -331,7 +331,7 @@ Guarda este número mágico!`;
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
-// Função para carregar imagem do GitHub
+// Gerar imagem
 function carregarImagem(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -342,25 +342,31 @@ function carregarImagem(src) {
     });
 }
 
-// Função para gerar imagem com a tua imagem de fundo
 async function gerarImagem(texto, nomeArquivo) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
     canvas.height = 400;
     const ctx = canvas.getContext("2d");
 
-    try {
-        // Substitui pelo link da tua imagem no GitHub
-        const fundo = await carregarImagem("https://raw.githubusercontent.com/USERNAME/REPO/main/fundo_confirmacao.png");
-        ctx.drawImage(fundo, 0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = "#000000"; // cor do texto
+    try {
+        const logo = await carregarImagem("https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png");
+
+        const logoWidth = 250;
+        const logoHeight = 125;
+        const logoX = (canvas.width - logoWidth) / 2;
+        const logoY = 20;
+        ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+
+        ctx.fillStyle = "#000000";
         ctx.font = "16px Arial";
         ctx.textAlign = "center";
 
         const linhas = texto.split("\n");
         linhas.forEach((linha, i) => {
-            const posY = 50 + i * 28; // ajusta conforme necessário
+            const posY = logoY + logoHeight + 25 + i * 28;
             ctx.fillText(linha, canvas.width / 2, posY);
         });
 
@@ -370,12 +376,11 @@ async function gerarImagem(texto, nomeArquivo) {
         link.click();
 
     } catch (err) {
-        alert("Erro ao carregar a imagem de fundo.");
+        alert("Erro ao carregar o logo da empresa.");
     }
 }
 </script>
 
 </body>
 </html>
-
 
