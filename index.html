@@ -201,12 +201,11 @@ const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
 const sites = {
-    "Columbano": ["telma.pereirs.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
+    "Columbano": ["telma.pereira.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
     "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
     "Alexandre Herculano": ["t@t.com"],
     "Évora": ["teste@.com"],
-        "A Verificar com Chefia": ["teste@.com"],
-
+    "A Verificar com Chefia": ["teste@.com"],
     "Alfragide": ["ruben.rhodo@newspring.pt"]
 };
 
@@ -231,6 +230,7 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
+// Inscrição
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -247,7 +247,16 @@ async function gerarInscricao() {
         return;
     }
 
-    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nE-mail: ${email}\nSite: ${site}`;
+    const codigo = "NSS_" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const status = "Inscrito";
+
+    const mensagem = `Inscrição realizada com sucesso!
+Nome: ${nome}
+Coordenação: ${coord}
+E-mail: ${email}
+Site: ${site}
+Código: ${codigo}`;
+
     document.getElementById("msgInscricao").innerText = mensagem;
 
     try {
@@ -259,7 +268,14 @@ async function gerarInscricao() {
                 'Authorization': `Bearer ${SUPABASE_API_KEY}`,
                 'Prefer': 'return=representation'
             },
-            body: JSON.stringify([{ nome, email, coordenacao: coord, site, codigo_negativa: null }])
+            body: JSON.stringify([{ 
+                nome, 
+                email, 
+                coordenacao: coord, 
+                site, 
+                codigo_negativa: codigo,
+                status: status 
+            }])
         });
     } catch (err) {
         alert("Erro ao salvar no banco.");
@@ -268,6 +284,7 @@ async function gerarInscricao() {
     gerarImagem(mensagem, "Confirmacao_Inscricao.png");
 }
 
+// Recusa
 async function gerarNegativa() {
     const nome = document.getElementById("nomeNegar").value.trim();
     const email = document.getElementById("emailNegar").value.trim();
@@ -278,7 +295,15 @@ async function gerarNegativa() {
     }
 
     const codigo = "NSS_" + Math.random().toString(36).substring(2, 8).toUpperCase();
-    const mensagem = `Recusa de convite registada!\nNome: ${nome}\nE-mail: ${email}\nCódigo: ${codigo}\n\nGuarda este número mágico!`;
+    const status = "Recusa";
+
+    const mensagem = `Recusa de convite registada!
+Nome: ${nome}
+E-mail: ${email}
+Código: ${codigo}
+
+Guarda este número mágico!`;
+
     document.getElementById("msgNegar").innerText = mensagem;
 
     try {
@@ -290,7 +315,14 @@ async function gerarNegativa() {
                 'Authorization': `Bearer ${SUPABASE_API_KEY}`,
                 'Prefer': 'return=representation'
             },
-            body: JSON.stringify([{ nome, email, coordenacao: null, site: null, codigo_negativa: codigo }])
+            body: JSON.stringify([{ 
+                nome, 
+                email, 
+                coordenacao: null, 
+                site: null, 
+                codigo_negativa: codigo,
+                status: status 
+            }])
         });
     } catch (err) {
         alert("Erro ao salvar.");
@@ -299,6 +331,7 @@ async function gerarNegativa() {
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
+// Gerar imagem
 function carregarImagem(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -328,7 +361,7 @@ async function gerarImagem(texto, nomeArquivo) {
         ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
 
         ctx.fillStyle = "#000000";
-        ctx.font = "16px Arial"; // fonte menor
+        ctx.font = "16px Arial";
         ctx.textAlign = "center";
 
         const linhas = texto.split("\n");
