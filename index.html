@@ -4,167 +4,154 @@
 <meta charset="UTF-8">
 <title>Lanche de Natal</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-    body {
-        font-family: 'Inter', Arial, sans-serif;
-        background: url('nss.jpg') no-repeat center center fixed;
-        background-size: cover;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center; 
-        min-height: 100vh;
-        color: #333;
-    }
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: url('nss.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    min-height: 100vh;
+    color: #333;
+}
 
-    #alertaCentral {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #f87171; /* vermelho suave */
-        color: white;
-        padding: 20px 30px;
-        border-radius: 12px;
-        font-size: 18px;
-        font-weight: 600;
-        text-align: center;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        z-index: 9999;
-    }
+#alertaCentral {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f87171;
+    color: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
 
-    #alertaCentral.hidden {
-        display: none;
-    }
+#alertaCentral.hidden { display: none; }
 
-    #telaInicial {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        width: 100%;
-    }
+#telaInicial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
 
-    #btnIniciar {
-        background-color: #16a34a;
-        color: white;
-        border: none;
-        padding: 20px 40px;
-        font-size: 20px;
-        font-weight: 600;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+#btnIniciar {
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-    #btnIniciar:hover {
-        background-color: #13803d;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
+#btnIniciar:hover {
+    background-color: #13803d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
 
-    #conteudoPrincipal {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center; 
-        width: 100%;
-    }
+#conteudoPrincipal {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    width: 100%;
+}
 
-    .conteudoBox {
-        background: rgba(255,255,255,0.95);
-        padding: 20px 25px;
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        width: 350px; 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 20px;
-    }
+.conteudoBox {
+    background: rgba(255,255,255,0.95);
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 350px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-    #caixaEscolha {
-        padding: 20px 25px;
-    }
+#caixaEscolha { padding: 20px 25px; }
 
-    .conteudoBox:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    }
+.conteudoBox:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
 
-    h2, h3, p {
-        text-align: center;
-        margin: 10px 0;
-    }
+h2, h3, p { text-align: center; margin: 10px 0; }
 
-    /* Opções em bold e maiores */
-    #caixaEscolha label {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-        font-weight: 700;
-        font-size: 20px;
-        color: #1a1a1a;
-        cursor: pointer;
-    }
+#caixaEscolha label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 20px;
+    color: #1a1a1a;
+    cursor: pointer;
+}
 
-    input[type="text"],
-    input[type="email"],
-    select {
-        width: 100%;
-        padding: 10px 12px;
-        margin-bottom: 15px;
-        border: 1px solid #cbd5e0;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: all 0.2s ease;
-    }
+input[type="text"], input[type="email"], input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
 
-    input[type="radio"] {
-        margin-right: 10px;
-        accent-color: #16a34a;
-        cursor: pointer;
-        width: 20px;
-        height: 20px;
-    }
+input[type="radio"] {
+    margin-right: 10px;
+    accent-color: #16a34a;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
 
-    button.formButton {
-        width: 100%;
-        background-color: #16a34a;
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+button.formButton {
+    width: 100%;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
-    button.formButton:hover {
-        background-color: #13803d;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+button.formButton:hover {
+    background-color: #13803d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 
-    #msgInscricao,
-    #msgNegar {
-        font-weight: 600;
-        margin-top: 10px;
-        color: #16a34a;
-        text-align: center;
-    }
+#msgInscricao, #msgNegar {
+    font-weight: 600;
+    margin-top: 10px;
+    color: #16a34a;
+    text-align: center;
+}
 
-    .hidden { display: none; }
-
+.hidden { display: none; }
 </style>
 </head>
 <body>
 
-<!-- ALERTA CENTRAL -->
 <div id="alertaCentral" class="hidden"></div>
 
 <div id="telaInicial">
@@ -201,8 +188,8 @@
         <label>Nome completo</label>
         <input type="text" id="nome">
 
-        <label>E-mail Profissional</label>
-        <input type="email" id="email">
+        <label>NIF</label>
+        <input type="text" id="nif">
 
         <button class="formButton" onclick="gerarInscricao()">Submeter</button>
         <p id="msgInscricao"></p>
@@ -214,8 +201,8 @@
         <label>Nome Completo</label>
         <input type="text" id="nomeNegar">
 
-        <label>E-mail Profissional</label>
-        <input type="email" id="emailNegar">
+        <label>NIF</label>
+        <input type="text" id="nifNegar">
 
         <button class="formButton" onclick="gerarNegativa()">Submeter</button>
         <p id="msgNegar"></p>
@@ -228,17 +215,16 @@ const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
 const sites = {
-    "Columbano": ["telma.pereira.rosa@fidelidade.pt","liliana.pereira@newspring.pt","a2@a.com"],
-    "Báltico": ["andreia.alexandra.gralha@newspring.pt","t1@t.com"],
-    "Alexandre Herculano": ["t@t.com"],
-    "Évora": ["teste@.com"],
-    "A Verificar com Chefia": ["teste@.com"],
-    "Alfragide": ["ruben.rhodo@newspring.pt"]
+    "Columbano": ["266329438"], 
+    "Báltico": ["12345"], 
+    "Alexandre Herculano": ["001234"], 
+    "Évora": ["01234"], 
+    "A Verificar com Chefia": ["0001234"], 
+    "Alfragide": ["111111"]
 };
 
-// Função para verificar se email já foi registado
-async function emailJaRegistado(email) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/participantes?email=eq.${email}`, {
+async function nifJaRegistado(nif) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/participantes?nif=eq.${nif}`, {
         method: "GET",
         headers: {
             'apikey': SUPABASE_API_KEY,
@@ -249,10 +235,9 @@ async function emailJaRegistado(email) {
     return data.length > 0;
 }
 
-function getSiteDoEmail(email) {
-    email = email.toLowerCase();
-    for (const [site, emails] of Object.entries(sites)) {
-        if (emails.includes(email)) return site;
+function getSiteDoNif(nif) {
+    for (const [site, nifs] of Object.entries(sites)) {
+        if (nifs.includes(nif)) return site;
     }
     return null;
 }
@@ -270,49 +255,28 @@ function mostrarOpcao() {
     else document.getElementById("formNegar").classList.remove("hidden");
 }
 
-// FUNÇÃO ALERTA CENTRAL
 function mostrarAlerta(mensagem) {
     const alerta = document.getElementById("alertaCentral");
     alerta.innerText = mensagem;
     alerta.classList.remove("hidden");
-
-    setTimeout(() => {
-        alerta.classList.add("hidden");
-    }, 3000); // desaparece após 3s
+    setTimeout(() => alerta.classList.add("hidden"), 3000);
 }
 
-// INSCRIÇÃO
 async function gerarInscricao() {
     const nome = document.getElementById("nome").value.trim();
-    const email = document.getElementById("email").value.trim();
+    const nif = document.getElementById("nif").value.trim();
     const coord = document.getElementById("coordenacao").value;
 
-    if (!nome || !email || !coord) {
-        mostrarAlerta("Preencha todos os campos.");
-        return;
-    }
+    if (!nome || !nif || !coord) { mostrarAlerta("Preencha todos os campos."); return; }
+    if (await nifJaRegistado(nif)) { mostrarAlerta("Este NIF já submeteu a sua resposta."); return; }
 
-    if (await emailJaRegistado(email)) {
-        mostrarAlerta("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
-        return;
-    }
+    const site = getSiteDoNif(nif);
+    if (!site) { mostrarAlerta("NIF não existe na lista de associados."); return; }
 
-    const site = getSiteDoEmail(email);
-    if (!site) {
-        mostrarAlerta("O email não existe na lista de associados. Tente novamente.");
-        return;
-    }
-
-    const codigo = "NSS_" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const codigo = "NSS_" + Math.random().toString(36).substring(2,8).toUpperCase();
     const status = "Inscrito";
 
-    const mensagem = `Inscrição realizada com sucesso!
-Nome: ${nome}
-Coordenação: ${coord}
-E-mail: ${email}
-Site: ${site}
-Código: ${codigo}`;
-
+    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nNIF: ${nif}\nSite: ${site}\nCódigo: ${codigo}`;
     document.getElementById("msgInscricao").innerText = mensagem;
 
     try {
@@ -326,45 +290,29 @@ Código: ${codigo}`;
             },
             body: JSON.stringify([{ 
                 nome, 
-                email, 
+                nif, 
                 coordenacao: coord, 
                 site, 
                 codigo_negativa: codigo,
-                status: status 
+                status 
             }])
         });
-    } catch (err) {
-        mostrarAlerta("Erro ao salvar no banco.");
-    }
+    } catch (err) { mostrarAlerta("Erro ao salvar no banco."); }
 
     gerarImagem(mensagem, "Confirmacao_Inscricao.png");
 }
 
-// RECUSA
 async function gerarNegativa() {
     const nome = document.getElementById("nomeNegar").value.trim();
-    const email = document.getElementById("emailNegar").value.trim();
+    const nif = document.getElementById("nifNegar").value.trim();
 
-    if (!nome || !email) {
-        mostrarAlerta("Preencha todos os campos.");
-        return;
-    }
+    if (!nome || !nif) { mostrarAlerta("Preencha todos os campos."); return; }
+    if (await nifJaRegistado(nif)) { mostrarAlerta("Este NIF já submeteu a sua resposta."); return; }
 
-    if (await emailJaRegistado(email)) {
-        mostrarAlerta("Este e-mail já submeteu a sua resposta. Apenas é permitida 1 submissão.");
-        return;
-    }
-
-    const codigo = "NSS_" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const codigo = "NSS_" + Math.random().toString(36).substring(2,8).toUpperCase();
     const status = "Recusa";
 
-    const mensagem = `Recusa de convite registada!
-Nome: ${nome}
-E-mail: ${email}
-Código: ${codigo}
-
-Guarda este número mágico!`;
-
+    const mensagem = `Recusa de convite registada!\nNome: ${nome}\nNIF: ${nif}\nCódigo: ${codigo}\nGuarda este número mágico!`;
     document.getElementById("msgNegar").innerText = mensagem;
 
     try {
@@ -378,16 +326,14 @@ Guarda este número mágico!`;
             },
             body: JSON.stringify([{ 
                 nome, 
-                email, 
+                nif, 
                 coordenacao: null, 
                 site: null, 
                 codigo_negativa: codigo,
-                status: status 
+                status 
             }])
         });
-    } catch (err) {
-        mostrarAlerta("Erro ao salvar.");
-    }
+    } catch (err) { mostrarAlerta("Erro ao salvar."); }
 
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
@@ -414,31 +360,21 @@ async function gerarImagem(texto, nomeArquivo) {
 
     try {
         const logo = await carregarImagem("https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png");
-
-        const logoWidth = 250;
-        const logoHeight = 125;
-        const logoX = (canvas.width - logoWidth) / 2;
-        const logoY = 20;
-        ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+        ctx.drawImage(logo, (canvas.width-250)/2, 20, 250, 125);
 
         ctx.fillStyle = "#000000";
         ctx.font = "16px Arial";
         ctx.textAlign = "center";
 
-        const linhas = texto.split("\n");
-        linhas.forEach((linha, i) => {
-            const posY = logoY + logoHeight + 25 + i * 28;
-            ctx.fillText(linha, canvas.width / 2, posY);
+        texto.split("\n").forEach((linha, i) => {
+            ctx.fillText(linha, canvas.width/2, 170 + i*28);
         });
 
         const link = document.createElement("a");
         link.download = nomeArquivo;
         link.href = canvas.toDataURL("image/png");
         link.click();
-
-    } catch (err) {
-        mostrarAlerta("Erro ao carregar o logo da empresa.");
-    }
+    } catch (err) { mostrarAlerta("Erro ao carregar o logo da empresa."); }
 }
 </script>
 
