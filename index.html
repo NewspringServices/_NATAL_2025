@@ -103,7 +103,7 @@ h2, h3, p { text-align: center; margin: 10px 0; }
     cursor: pointer;
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="email"], input[type="number"], select {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 15px;
@@ -175,16 +175,35 @@ button.formButton:hover {
 
     <div id="formInscricao" class="conteudoBox hidden">
         <h3>Efetuar Inscrição</h3>
+
+        <label>Equipa</label>
+        <select id="coordenacao">
+            <option value="">Seleciona o teu Projeto</option>
+            <option value="FID BPO">FID BPO</option>
+            <option value="Contact Center - Worten">Contact Center - Worten</option>
+            <option value="Contact Center - Fidelidade">Contact Center - Fidelidade</option>
+            <option value="Equipa de Recursos Humanos">Equipa de Recursos Humanos</option>
+        </select>
+
+        <label>Nome completo</label>
+        <input type="text" id="nome">
+
         <label>NIF</label>
         <input type="text" id="nif">
+
         <button class="formButton" onclick="gerarInscricao()">Submeter</button>
         <p id="msgInscricao"></p>
     </div>
 
     <div id="formNegar" class="conteudoBox hidden">
         <h3>Recusar Convite</h3>
+
+        <label>Nome Completo</label>
+        <input type="text" id="nomeNegar">
+
         <label>NIF</label>
         <input type="text" id="nifNegar">
+
         <button class="formButton" onclick="gerarNegativa()">Submeter</button>
         <p id="msgNegar"></p>
     </div>
@@ -192,7 +211,7 @@ button.formButton:hover {
 </div>
 
 <script>
-const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co/rest/v1/Inscricoes';
+const SUPABASE_URL = 'https://bijndfsxrzjviwrdvwms.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpam5kZnN4cnpqdml3cmR2d21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTA5NTIsImV4cCI6MjA2NjQyNjk1Mn0.EWaFInuqTaxvnjytb40DdnflEbBrbSYcViKLYc_kKBk';
 
 const sites = {
@@ -205,20 +224,15 @@ const sites = {
 };
 
 async function nifJaRegistado(nif) {
-    try {
-        const res = await fetch(`${SUPABASE_URL}?nif=eq."${nif}"`, {
-            method: "GET",
-            headers: {
-                'apikey': SUPABASE_API_KEY,
-                'Authorization': `Bearer ${SUPABASE_API_KEY}`
-            }
-        });
-        const data = await res.json();
-        return data.length > 0;
-    } catch (err) {
-        mostrarAlerta("Erro ao verificar o NIF.");
-        return true;
-    }
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/participantes?nif=eq.${nif}`, {
+        method: "GET",
+        headers: {
+            'apikey': SUPABASE_API_KEY,
+            'Authorization': `Bearer ${SUPABASE_API_KEY}`
+        }
+    });
+    const data = await res.json();
+    return data.length > 0;
 }
 
 function getSiteDoNif(nif) {
@@ -248,13 +262,17 @@ function mostrarAlerta(mensagem) {
     setTimeout(() => alerta.classList.add("hidden"), 3000);
 }
 
+// Atualizado para gerar números de 1 a 1750
 function gerarCodigoNumerico() {
-    return Math.floor(1 + Math.random() * 1800); // número entre 1 e 2000
+    return Math.floor(Math.random() * 1750) + 1;
 }
 
 async function gerarInscricao() {
+    const nome = document.getElementById("nome").value.trim();
     const nif = document.getElementById("nif").value.trim();
-    if (!nif) { mostrarAlerta("Preencha o NIF."); return; }
+    const coord = document.getElementById("coordenacao").value;
+
+    if (!nome || !nif || !coord) { mostrarAlerta("Preencha todos os campos."); return; }
     if (await nifJaRegistado(nif)) { mostrarAlerta("Este NIF já submeteu a sua resposta."); return; }
 
     const site = getSiteDoNif(nif);
@@ -262,11 +280,12 @@ async function gerarInscricao() {
 
     const codigo = gerarCodigoNumerico();
     const status = "Inscrito";
-    const mensagem = `Inscrição realizada!\nNIF: ${nif}\nSite: ${site}\nCódigo: ${codigo}`;
+
+    const mensagem = `Inscrição realizada com sucesso!\nNome: ${nome}\nCoordenação: ${coord}\nNIF: ${nif}\nSite: ${site}\nCódigo: ${codigo}`;
     document.getElementById("msgInscricao").innerText = mensagem;
 
     try {
-        await fetch(SUPABASE_URL, {
+        await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -275,10 +294,12 @@ async function gerarInscricao() {
                 'Prefer': 'return=representation'
             },
             body: JSON.stringify([{ 
-                nif,
-                status,
-                site,
-                codigo_negativa: codigo
+                nome, 
+                nif, 
+                coordenacao: coord, 
+                site, 
+                codigo_negativa: codigo,
+                status 
             }])
         });
     } catch (err) { mostrarAlerta("Erro ao salvar no banco."); }
@@ -287,17 +308,20 @@ async function gerarInscricao() {
 }
 
 async function gerarNegativa() {
+    const nome = document.getElementById("nomeNegar").value.trim();
     const nif = document.getElementById("nifNegar").value.trim();
-    if (!nif) { mostrarAlerta("Preencha o NIF."); return; }
+
+    if (!nome || !nif) { mostrarAlerta("Preencha todos os campos."); return; }
     if (await nifJaRegistado(nif)) { mostrarAlerta("Este NIF já submeteu a sua resposta."); return; }
 
     const codigo = gerarCodigoNumerico();
     const status = "Recusa";
-    const mensagem = `Recusa de convite registada!\nNIF: ${nif}\nCódigo: ${codigo}`;
+
+    const mensagem = `Recusa de convite registada!\nNome: ${nome}\nNIF: ${nif}\nCódigo: ${codigo}\nGuarda este número mágico!`;
     document.getElementById("msgNegar").innerText = mensagem;
 
     try {
-        await fetch(SUPABASE_URL, {
+        await fetch(`${SUPABASE_URL}/rest/v1/participantes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -306,10 +330,12 @@ async function gerarNegativa() {
                 'Prefer': 'return=representation'
             },
             body: JSON.stringify([{ 
-                nif,
-                status,
-                site: null,
-                codigo_negativa: codigo
+                nome, 
+                nif, 
+                coordenacao: null, 
+                site: null, 
+                codigo_negativa: codigo,
+                status 
             }])
         });
     } catch (err) { mostrarAlerta("Erro ao salvar."); }
@@ -317,7 +343,7 @@ async function gerarNegativa() {
     gerarImagem(mensagem, "Recusa_Convite.png");
 }
 
-// Geração de imagem
+// GERAR IMAGEM
 function carregarImagem(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -338,7 +364,7 @@ async function gerarImagem(texto, nomeArquivo) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     try {
-        const logo = await carregarImagem("https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png");
+        const logo = await carregarImagem('https://raw.githubusercontent.com/NewspringServices/NEWSPRING_NATAL_2025/main/logo.png');
         ctx.drawImage(logo, (canvas.width-250)/2, 20, 250, 125);
 
         ctx.fillStyle = "#000000";
